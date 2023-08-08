@@ -156,27 +156,27 @@ fi
 # Namespace
 pre_namespace=$(grep 'namespace' pre_requirement/terraform.auto.tfvars | awk -F'"' '{print $2}')
 
-sed -i "/namespace/ s/$pre_namespace/$namespace/g" pre_requirement/terraform.auto.tfvars
+sed -i "" "/namespace/ s/$pre_namespace/$namespace/g" pre_requirement/terraform.auto.tfvars
 
 # Project
 pre_project=$(grep 'project' pre_requirement/terraform.auto.tfvars | awk -F'"' '{print $2}')
 
-sed -i "/project/ s/$pre_project/$project/g" pre_requirement/terraform.auto.tfvars
+sed -i "" "/project/ s/$pre_project/$project/g" pre_requirement/terraform.auto.tfvars
 
 # Creator Email
 pre_creator_email=$(grep 'creator_email' pre_requirement/terraform.auto.tfvars | awk -F'"' '{print $2}')
 
-sed -i "/creator_email/ s/$pre_creator_email/$creator_email/" pre_requirement/terraform.auto.tfvars
+sed -i "" "/creator_email/ s/$pre_creator_email/$creator_email/" pre_requirement/terraform.auto.tfvars
 
 # Owner Email
 pre_owner_email=$(grep 'owner_email' pre_requirement/terraform.auto.tfvars | awk -F'"' '{print $2}')
 
-sed -i "/owner_email/ s/$pre_owner_email/$owner_email/" pre_requirement/terraform.auto.tfvars
+sed -i "" "/owner_email/ s/$pre_owner_email/$owner_email/" pre_requirement/terraform.auto.tfvars
 
 # Region
 pre_region=$(grep 'region' pre_requirement/terraform.auto.tfvars | awk -F'"' '{print $2}')
 
-sed -i "/region/ s/$pre_region/$region/" pre_requirement/terraform.auto.tfvars
+sed -i "" "/region/ s/$pre_region/$region/" pre_requirement/terraform.auto.tfvars
 
 
 #--------------- Infrastructure --> config.sh --------------------#
@@ -185,114 +185,114 @@ sed -i "/region/ s/$pre_region/$region/" pre_requirement/terraform.auto.tfvars
 # Region
 cur_region=$(grep 'aws_region' infrastructure/config.sh | awk -F'"' '{print $2}')
 
-sed -i "/aws_region/ s/$cur_region/$region/" infrastructure/config.sh
+sed -i "" "/aws_region/ s/$cur_region/$region/" infrastructure/config.sh
 
 # Project
 cur_project=$(grep 'project' infrastructure/config.sh | awk -F'"' '{print $2}')
 
-sed -i "/project/ s/$cur_project/$project/" infrastructure/config.sh
+sed -i "" "/project/ s/$cur_project/$project/" infrastructure/config.sh
 
 # Domain
 cur_domain=$(grep 'domain' infrastructure/config.sh | awk -F'"' '{print $2}')
 
 if [ "$cur_domain" == "" ]; then
-    sed -i -e "s/domain=\"\"/domain=\"${domain}\"/g" infrastructure/config.sh
+    sed -i "" -e "s/domain=\"\"/domain=\"${domain}\"/g" infrastructure/config.sh
 else
-    sed -i "/domain/ s/$cur_domain/$domain/g" infrastructure/config.sh
+    sed -i "" "/domain/ s/$cur_domain/$domain/g" infrastructure/config.sh
 fi
 
 # Owner Email
 cur_owner_email=$(grep 'owner_email' infrastructure/config.sh | awk -F'"' '{print $2}')
 
-sed -i "/owner_email/ s/$cur_owner_email/$owner_email/g" infrastructure/config.sh
+sed -i "" "/owner_email/ s/$cur_owner_email/$owner_email/g" infrastructure/config.sh
 
 # Creator Email
 cur_creator_email=$(grep 'creator_email' infrastructure/config.sh | awk -F'"' '{print $2}')
 
-sed -i "/creator_email/ s/$cur_creator_email/$creator_email/g" infrastructure/config.sh
+sed -i "" "/creator_email/ s/$cur_creator_email/$creator_email/g" infrastructure/config.sh
 
 # NameSpace
 cur_namespace=$(grep 'namespace' infrastructure/config.sh | awk -F'"' '{print $2}')
 
-sed -i "/namespace/ s/$cur_namespace/$namespace/g" infrastructure/config.sh
+sed -i "" "/namespace/ s/$cur_namespace/$namespace/g" infrastructure/config.sh
 
 # Bucket
 cur_bucket_name=$(grep 'bucket_name' infrastructure/config.sh | awk -F'"' '{print $2}')
 
-sed -i "/bucket_name/ s/$cur_bucket_name/$bucket_name/g" infrastructure/config.sh
+sed -i "" "/bucket_name/ s/$cur_bucket_name/$bucket_name/g" infrastructure/config.sh
 
 #--------------- Infrastructure --> terraform.auto.tfvars --------------------#
 
 # Namespace
 infra_namespace=$(grep 'namespace' infrastructure/terraform.auto.tfvars | awk -F'"' '{print $2}')
 
-sed -i "/namespace/ s/$infra_namespace/$namespace/" infrastructure/terraform.auto.tfvars
+sed -i "" "/namespace/ s/$infra_namespace/$namespace/" infrastructure/terraform.auto.tfvars
 
 # Environment
 infra_env=$(grep 'env' infrastructure/terraform.auto.tfvars | awk -F'"' '{print $2}')
 
-sed -i "/env/ s/$infra_env/$environ/" infrastructure/terraform.auto.tfvars
+sed -i "" "/env/ s/$infra_env/$environ/" infrastructure/terraform.auto.tfvars
 
 
 # Region
 infra_region=$(grep 'region' infrastructure/terraform.auto.tfvars | awk -F'"' '{print $2}')
 
-sed -i "/region/ s/$infra_region/$region/" infrastructure/terraform.auto.tfvars
+sed -i "" "/region/ s/$infra_region/$region/" infrastructure/terraform.auto.tfvars
 
 # Account ID
 infr_account_id=$(grep 'account_id' infrastructure/terraform.auto.tfvars | awk -F'"' '{print $2}')
 
-sed -i "/account_id/ s/$infr_account_id/$account_id/" infrastructure/terraform.auto.tfvars
+sed -i "" "/account_id/ s/$infr_account_id/$account_id/" infrastructure/terraform.auto.tfvars
 
 # Domain for infra --> terraform.auto.tfvars
 infra_domain=$(grep 'domain_name' infrastructure/terraform.auto.tfvars | awk -F'= ' '{print $2}')
 
 
 if [ "$infra_domain" == '""' ]; then
-     sed -i "/domain_name/ s/$infra_domain/\"$domain\"/" infrastructure/terraform.auto.tfvars
+     sed -i "" "/domain_name/ s/$infra_domain/\"$domain\"/" infrastructure/terraform.auto.tfvars
 else
-    sed -i "/domain_name/ s/$infra_domain/\"$domain\"/" infrastructure/terraform.auto.tfvars
+    sed -i "" "/domain_name/ s/$infra_domain/\"$domain\"/" infrastructure/terraform.auto.tfvars
 fi
 
 # Hosted Zone ID
 infr_hosted_zone_id=$(grep 'hosted_zone_id' infrastructure/terraform.auto.tfvars | awk -F'"' '{print $2}')
 
-sed -i "/hosted_zone_id/ s/$infr_hosted_zone_id/$hosted_zone_id/" infrastructure/terraform.auto.tfvars
+sed -i "" "/hosted_zone_id/ s/$infr_hosted_zone_id/$hosted_zone_id/" infrastructure/terraform.auto.tfvars
 
 
 # SES Email Address
 infr_ses_email_address=$(grep 'ses_email_address' infrastructure/terraform.auto.tfvars | awk -F'"' '{print $2}')
 
-sed -i "/ses_email_address/ s/$infr_ses_email_address/$ses_email_address/" infrastructure/terraform.auto.tfvars
+sed -i "" "/ses_email_address/ s/$infr_ses_email_address/$ses_email_address/" infrastructure/terraform.auto.tfvars
 
 
 # Creator Email
 infra_creator_email=$(grep 'creator_email' infrastructure/terraform.auto.tfvars | awk -F'"' '{print $2}')
 
-sed -i "/creator_email/ s/$infra_creator_email/$creator_email/g" infrastructure/terraform.auto.tfvars
+sed -i "" "/creator_email/ s/$infra_creator_email/$creator_email/g" infrastructure/terraform.auto.tfvars
 
 # Owner Email
 infra_owner_email=$(grep 'owner_email' infrastructure/terraform.auto.tfvars | awk -F'"' '{print $2}')
 
-sed -i "/owner_email/ s/$infra_owner_email/$owner_email/g" infrastructure/terraform.auto.tfvars
+sed -i "" "/owner_email/ s/$infra_owner_email/$owner_email/g" infrastructure/terraform.auto.tfvars
 
 
 # Project
 infra_project=$(grep 'project' infrastructure/terraform.auto.tfvars | awk -F'"' '{print $2}')
 
-sed -i "/project/ s/$infra_project/$project/" infrastructure/terraform.auto.tfvars
+sed -i "" "/project/ s/$infra_project/$project/" infrastructure/terraform.auto.tfvars
 
 
 # Allowed IPv4 Traffic
 infra_allow_traffic=$(grep 'allow_traffic' infrastructure/terraform.auto.tfvars | awk -F'"' '{print $2}')
 
-sed -i "s~$infra_allow_traffic~$allow_traffic~" infrastructure/terraform.auto.tfvars
+sed -i "" "s~$infra_allow_traffic~$allow_traffic~" infrastructure/terraform.auto.tfvars
 
 
 # Envrionment
 infra_environ=$(grep 'env' infrastructure/terraform.auto.tfvars | awk -F'"' '{print $2}')
 
-sed -i "/env/ s/$infra_environ/$environ/" infrastructure/terraform.auto.tfvars
+sed -i "" "/env/ s/$infra_environ/$environ/" infrastructure/terraform.auto.tfvars
 
 #--------------- Infrastructure --> backend.tf --------------------#
 
@@ -300,12 +300,12 @@ sed -i "/env/ s/$infra_environ/$environ/" infrastructure/terraform.auto.tfvars
 # Bucket
 backend_bucket=$(grep 'bucket' infrastructure/backend.tf | awk -F'"' '{print $2}')
 
-sed -i "/bucket/ s/$backend_bucket/$bucket_name/" infrastructure/backend.tf 
+sed -i "" "/bucket/ s/$backend_bucket/$bucket_name/" infrastructure/backend.tf 
 
 Region
 backend_region=$(grep 'region' infrastructure/backend.tf | awk -F'"' '{print $2}')
 
-sed -i "/region/ s/$backend_region/$region/" infrastructure/backend.tf 
+sed -i "" "/region/ s/$backend_region/$region/" infrastructure/backend.tf 
 
 #************************************** User Inputs  ******************************************#
 
