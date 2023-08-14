@@ -22,6 +22,10 @@ locals {
       source_file = "../src/expensive_services_detail/cost_metrics_of_expensive_services.py"
       output_path = "${path.module}/cost_metrics_of_expensive_services.zip"
     }
+    breakdown_of_expensive_service = {
+      source_file = "../src/expensive_services_detail/breakdown_of_expensive_service.py"
+      output_path = "${path.module}/breakdown_of_expensive_service.zip"
+    }
   }
 }
 
@@ -114,7 +118,7 @@ resource "aws_lambda_function" "most_expensive_service" {
   role          = aws_iam_role.most_expensive_service_role.arn
   runtime       = "python3.9"
   handler       = "most_expensive_service.lambda_handler"
-  filename      = values(data.archive_file.src)[1].output_path
+  filename      = values(data.archive_file.src)[2].output_path
   environment {
     variables = {
       account_detail       = var.namespace
@@ -131,6 +135,32 @@ resource "aws_lambda_function" "most_expensive_service" {
 
 }
 
+resource "aws_lambda_function" "breakdown_of_expensive_service" {
+  #ts:skip=AWS.LambdaFunction.LM.MEIDUM.0063 We are aware of the risk and choose to skip this rule
+  #ts:skip=AWS.LambdaFunction.Logging.0470 We are aware of the risk and choose to skip this rule
+  #ts:skip=AWS.LambdaFunction.EncryptionandKeyManagement.0471 We are aware of the risk and choose to skip this rule
+  function_name = "${var.namespace}-breakdown_of_expensive_service"
+  role          = aws_iam_role.most_expensive_service_role.arn
+  runtime       = "python3.9"
+  handler       = "breakdown_of_expensive_service.lambda_handler"
+  filename      = values(data.archive_file.src)[0].output_path
+  environment {
+    variables = {
+      prometheus_ip            = "${var.prometheus_ip}:9091"
+      bucket_name              = var.s3_xc3_bucket.bucket
+      expensive_service_prefix = var.s3_prefixes.expensive_service_prefix
+    }
+  }
+  layers      = [var.prometheus_layer]
+  memory_size = var.memory_size
+  timeout     = var.timeout
+  vpc_config {
+    subnet_ids         = [var.subnet_id[0]]
+    security_group_ids = [var.security_group_id]
+  }
+  tags = merge(local.tags, tomap({ "Name" = "${var.namespace}-breakdown_of_expensive_service" }))
+}
+
 resource "aws_lambda_function" "cost_metrics_of_expensive_services" {
   #ts:skip=AWS.LambdaFunction.LM.MEIDUM.0063 We are aware of the risk and choose to skip this rule
   #ts:skip=AWS.LambdaFunction.Logging.0470 We are aware of the risk and choose to skip this rule
@@ -139,12 +169,13 @@ resource "aws_lambda_function" "cost_metrics_of_expensive_services" {
   role          = aws_iam_role.most_expensive_service_role.arn
   runtime       = "python3.9"
   handler       = "cost_metrics_of_expensive_services.lambda_handler"
-  filename      = values(data.archive_file.src)[0].output_path
+  filename      = values(data.archive_file.src)[1].output_path
   environment {
     variables = {
       prometheus_ip            = "${var.prometheus_ip}:9091"
       bucket_name              = var.s3_xc3_bucket.bucket
       expensive_service_prefix = var.s3_prefixes.expensive_service_prefix
+      lambda_function_name     = aws_lambda_function.breakdown_of_expensive_service.arn
     }
   }
   layers      = [var.prometheus_layer]
