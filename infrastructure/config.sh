@@ -18,7 +18,7 @@
 export aws_region="ap-southeast-2"
 export dynamo_table_name="terraform-lock"
 export bucket_name="terraform-state-tip-group11-project"
-export project="example"
+export project="tip-group11-project"
 export domain=""
 export owner_email="104200778@student.swin.edu.au"
 export creator_email="104200778@student.swin.edu.au"
